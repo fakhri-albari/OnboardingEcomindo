@@ -7,67 +7,23 @@ using System.Threading.Tasks;
 
 namespace OnboardingEcomindo.Repositories
 {
-    public class UnitOfWork : IDisposable, IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
-        private readonly MetaShopContext dbContext;
+        public IGenericRepository<Item> ItemRepo { get; }
 
-        public IBaseRepository<Item> ItemRepository { get; }
-        //public IBaseRepository<Author> AuthorRepository { get; }
+        public IGenericRepository<Cashier> CashierRepo { get; }
+
+        public IGenericRepository<Transaction> TransactionRepo { get; }
+
+        public IGenericRepository<DetailTransaction> DetailTransactionRepo { get; }
 
         public UnitOfWork(MetaShopContext context)
         {
-            dbContext = context;
-
-            ItemRepository = new BaseRepository<Item>(context);
-            //AuthorRepository = new BaseRepository<Author>(context);
+            ItemRepo = new GenericRepository<Item>(context);
+            CashierRepo = new GenericRepository<Cashier>(context);
+            TransactionRepo = new GenericRepository<Transaction>(context);
+            DetailTransactionRepo = new GenericRepository<DetailTransaction>(context);
         }
 
-        public void Save()
-        {
-            dbContext.SaveChanges();
-        }
-
-        public Task SaveAsync(CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return dbContext.SaveChangesAsync(cancellationToken);
-        }
-
-        public IDbContextTransaction StartNewTransaction()
-        {
-            return dbContext.Database.BeginTransaction();
-        }
-
-        public Task<IDbContextTransaction> StartNewTransactionAsync()
-        {
-            return dbContext.Database.BeginTransactionAsync();
-        }
-
-        public Task<int> ExecuteSqlCommandAsync(string sql, object[] parameters, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return dbContext.Database.ExecuteSqlRawAsync(sql, parameters, cancellationToken);
-        }
-
-        #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    dbContext?.Dispose();
-                }
-                disposedValue = true;
-            }
-        }
-
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-        }
-        #endregion
     }
 }

@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace OnboardingEcomindo.Repositories
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
-        IBaseRepository<Item> ItemRepository { get; }
-        void Save();
-        Task SaveAsync(CancellationToken cancellationToken = default(CancellationToken));
-        IDbContextTransaction StartNewTransaction();
-        Task<IDbContextTransaction> StartNewTransactionAsync();
-        Task<int> ExecuteSqlCommandAsync(string sql, object[] parameters, CancellationToken cancellationToken = default(CancellationToken));
+        IGenericRepository<Item> ItemRepo { get; }
+        IGenericRepository<Cashier> CashierRepo { get; }
+        IGenericRepository<Transaction> TransactionRepo { get; }
+        IGenericRepository<DetailTransaction> DetailTransactionRepo { get; }
     }
 }
