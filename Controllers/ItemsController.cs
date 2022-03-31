@@ -43,5 +43,17 @@ namespace OnboardingEcomindo.Controllers
             Item result = await _unitOfWork.ItemRepository.GetByIdAsync(id);
             return new ObjectResult(result);
         }
+
+        /// <summary>
+        /// Create Item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Item Post([FromBody] Item item)
+        {
+            var result = _unitOfWork.ItemRepository.Add(item);
+            return result;
+        }
     }
 }

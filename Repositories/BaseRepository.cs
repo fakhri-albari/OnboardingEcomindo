@@ -23,6 +23,7 @@ namespace OnboardingEcomindo.Repositories
         public T Add(T entity)
         {
             T result = dbSet.Add(entity).Entity;
+            Console.WriteLine(result);
             return result;
         }
 
@@ -43,7 +44,7 @@ namespace OnboardingEcomindo.Repositories
             dbSet.Remove(entity);
         }
 
-        public async Task<T> GetByIdAsync(Guid id)
+        public async Task<T> GetByIdAsync(int id)
         {
             return await dbSet.FindAsync(id);
         }

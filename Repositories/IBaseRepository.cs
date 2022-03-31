@@ -14,6 +14,6 @@ namespace OnboardingEcomindo.Repositories
         void Edit(T entity);
         void Delete(T entity);
         IQueryable<T> GetAll();
-        Task GetByIdAsync(int id);
+        Task<T> GetByIdAsync(int id);
     }
 }
