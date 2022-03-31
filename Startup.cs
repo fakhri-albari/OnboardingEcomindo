@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.IO;
 using OnboardingEcomindo.Models;
+using OnboardingEcomindo.Repositories;
 
 namespace OnboardingEcomindo
 {
@@ -24,12 +25,16 @@ namespace OnboardingEcomindo
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TestContext>(opt =>
-               opt.UseInMemoryDatabase("Test"));
+            services.AddDbContext<MetaShopContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+            );
+
             services.AddControllers();
+
+            services.AddScoped<UnitOfWork>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -57,7 +62,6 @@ namespace OnboardingEcomindo
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
