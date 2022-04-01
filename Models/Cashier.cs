@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace OnboardingEcomindo.Models
 {
@@ -8,7 +9,8 @@ namespace OnboardingEcomindo.Models
     }
     public class Cashier
     {
-        public int Id { get; set; }
+        [Key]
+        public int CashierId { get; set; }
         public string Name { get; set; }
         public Gender Gender { get; set; }
         public DateTime DateOfBirth { get; set; }

@@ -71,7 +71,7 @@ namespace OnboardingEcomindo.Controllers
         public async Task Update([FromRoute] int id, [FromBody] ItemsDTO itemDTO)
         {
             Item item = _mapper.Map<Item>(itemDTO);
-            item.Id = id;
+            item.ItemId = id;
             await _unitOfWork.ItemRepo.Update(item);
         }
         /// <summary>

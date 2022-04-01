@@ -1,83 +1,83 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using OnboardingEcomindo.Models;
 using OnboardingEcomindo.DTO;
+using OnboardingEcomindo.Models;
 using OnboardingEcomindo.Repositories;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OnboardingEcomindo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CashiersController : ControllerBase
+    public class TransactionsController
     {
         private UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CashiersController(UnitOfWork unitOfWork)
+        public TransactionsController(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
 
             MapperConfiguration config = new MapperConfiguration(m =>
             {
-                m.CreateMap<CashiersDTO, Cashier>();
-                m.CreateMap<Cashier, CashiersDTO>();
+                m.CreateMap<TransactionsDTO, Transaction>();
+                m.CreateMap<Transaction, TransactionsDTO>();
             });
 
             _mapper = config.CreateMapper();
         }
 
+
         /// <summary>
-        /// Get all cashiers
+        /// Get all Transaction
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<Cashier>> GetAll()
+        public async Task<IEnumerable<Transaction>> GetAll()
         {
-            return await _unitOfWork.CashierRepo.GetAll();
+            return await _unitOfWork.TransactionRepo.GetAll();
         }
 
         /// <summary>
-        /// Get cashier using ID
+        /// Get Transaction Using ID
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [Route("{id}")]
-        public async Task<Cashier> GetById([FromRoute] int id)
+        public async Task<Transaction> GetById([FromRoute] int id)
         {
-            return await _unitOfWork.CashierRepo.GetById(id);
+            return await _unitOfWork.TransactionRepo.GetById(id);
         }
 
         /// <summary>
-        /// Create cashiers
+        /// Create Transaction
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<Cashier> Post([FromBody] CashiersDTO cashierDTO)
+        public async Task<Transaction> Post([FromBody] TransactionsDTO transactionDTO)
         {
-            Cashier cashier = _mapper.Map<Cashier>(cashierDTO);
-            return await _unitOfWork.CashierRepo.Add(cashier);
+            Transaction transaction = _mapper.Map<Transaction>(transactionDTO);
+            return await _unitOfWork.TransactionRepo.Add(transaction);
         }
 
         /// <summary>
-        /// Update cashiers
+        /// Update Transaction
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="itemDTO"></param>
+        /// <param name="transactionDTO"></param>
         /// <returns></returns>
         [HttpPut]
         [Route("{id}")]
-        public async Task Update([FromRoute] int id, [FromBody] CashiersDTO cashiersDTO)
+        public async Task Update([FromRoute] int id, [FromBody] TransactionsDTO transactionDTO)
         {
-            Cashier cashier = _mapper.Map<Cashier>(cashiersDTO);
-            cashier.CashierId = id;
-            await _unitOfWork.CashierRepo.Update(cashier);
+            Transaction transaction = _mapper.Map<Transaction>(transactionDTO);
+            transaction.TransactionId = id;
+            await _unitOfWork.TransactionRepo.Update(transaction);
         }
-
         /// <summary>
-        /// Delete cashier using id
+        /// Delete Transaction using id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -85,7 +85,7 @@ namespace OnboardingEcomindo.Controllers
         [Route("{id}")]
         public async Task Delete([FromRoute] int id)
         {
-            await _unitOfWork.CashierRepo.Delete(id);
+            await _unitOfWork.TransactionRepo.Delete(id);
         }
     }
 }

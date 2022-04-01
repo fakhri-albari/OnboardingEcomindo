@@ -10,20 +10,20 @@ using OnboardingEcomindo.Models;
 namespace OnboardingEcomindo.Migrations
 {
     [DbContext(typeof(MetaShopContext))]
-    [Migration("20220330140038_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220401041542_initial_migration")]
+    partial class initial_migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("OnboardingEcomindo.Models.Cashier", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CashierId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -37,14 +37,14 @@ namespace OnboardingEcomindo.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CashierId");
 
                     b.ToTable("FCashier");
                 });
 
             modelBuilder.Entity("OnboardingEcomindo.Models.DetailTransaction", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("DetailTransactionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -64,7 +64,9 @@ namespace OnboardingEcomindo.Migrations
                     b.Property<int>("TransactionId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("DetailTransactionId");
+
+                    b.HasIndex("ItemId");
 
                     b.HasIndex("TransactionId");
 
@@ -73,7 +75,7 @@ namespace OnboardingEcomindo.Migrations
 
             modelBuilder.Entity("OnboardingEcomindo.Models.Item", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -87,15 +89,17 @@ namespace OnboardingEcomindo.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ItemId");
 
                     b.ToTable("FItem");
                 });
 
             modelBuilder.Entity("OnboardingEcomindo.Models.Transaction", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<int>("TransactionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CashierId")
                         .HasColumnType("int");
@@ -109,18 +113,41 @@ namespace OnboardingEcomindo.Migrations
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("TransactionId");
+
+                    b.HasIndex("CashierId");
 
                     b.ToTable("FTransaction");
                 });
 
             modelBuilder.Entity("OnboardingEcomindo.Models.DetailTransaction", b =>
                 {
-                    b.HasOne("OnboardingEcomindo.Models.Transaction", null)
-                        .WithMany("DetailTransactions")
+                    b.HasOne("OnboardingEcomindo.Models.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnboardingEcomindo.Models.Transaction", "Transaction")
+                        .WithMany()
                         .HasForeignKey("TransactionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Transaction");
+                });
+
+            modelBuilder.Entity("OnboardingEcomindo.Models.Transaction", b =>
+                {
+                    b.HasOne("OnboardingEcomindo.Models.Cashier", "Cashier")
+                        .WithMany()
+                        .HasForeignKey("CashierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cashier");
                 });
 #pragma warning restore 612, 618
         }
