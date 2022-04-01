@@ -1,8 +1,6 @@
-﻿using OnboardingEcomindo.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
-namespace OnboardingEcomindo.DTO
+namespace OnboardingEcomindo.BLL.DTO
 {
     public class TransactionsDTO
     {

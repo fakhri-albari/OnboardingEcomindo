@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using OnboardingEcomindo.Models;
-using OnboardingEcomindo.DTO;
+using OnboardingEcomindo.DAL.Models;
+using OnboardingEcomindo.BLL.DTO;
 using OnboardingEcomindo.Repositories;
 using System.Collections.Generic;
 
@@ -10,82 +10,79 @@ namespace OnboardingEcomindo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CashiersController : ControllerBase
+    public class ItemsController : ControllerBase
     {
         private UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CashiersController(UnitOfWork unitOfWork)
+        public ItemsController(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
 
             MapperConfiguration config = new MapperConfiguration(m =>
             {
-                m.CreateMap<CashiersDTO, Cashier>();
-                m.CreateMap<Cashier, CashiersDTO>();
+                m.CreateMap<ItemsDTO, Item>();
+                m.CreateMap<Item, ItemsDTO>();
             });
 
             _mapper = config.CreateMapper();
         }
 
         /// <summary>
-        /// Get all cashiers
+        /// Get all items
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<Cashier>> GetAll()
-        {
-            return await _unitOfWork.CashierRepo.GetAll();
+        public async Task<IEnumerable<Item>> GetAll() {
+            return await _unitOfWork.ItemRepo.GetAll();
         }
 
         /// <summary>
-        /// Get cashier using ID
+        /// Get Item Using ID
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [Route("{id}")]
-        public async Task<Cashier> GetById([FromRoute] int id)
+        public async Task<Item> GetById([FromRoute] int id)
         {
-            return await _unitOfWork.CashierRepo.GetById(id);
+            return await _unitOfWork.ItemRepo.GetById(id);
         }
 
         /// <summary>
-        /// Create cashiers
+        /// Create Item
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<Cashier> Post([FromBody] CashiersDTO cashierDTO)
+        public async Task<Item> Post([FromBody] ItemsDTO itemDTO)
         {
-            Cashier cashier = _mapper.Map<Cashier>(cashierDTO);
-            return await _unitOfWork.CashierRepo.Add(cashier);
+            Item item = _mapper.Map<Item>(itemDTO);
+            return await _unitOfWork.ItemRepo.Add(item);
         }
 
         /// <summary>
-        /// Update cashiers
+        /// Update item
         /// </summary>
         /// <param name="id"></param>
         /// <param name="itemDTO"></param>
         /// <returns></returns>
         [HttpPut]
         [Route("{id}")]
-        public async Task Update([FromRoute] int id, [FromBody] CashiersDTO cashiersDTO)
+        public async Task Update([FromRoute] int id, [FromBody] ItemsDTO itemDTO)
         {
-            Cashier cashier = _mapper.Map<Cashier>(cashiersDTO);
-            cashier.CashierId = id;
-            await _unitOfWork.CashierRepo.Update(cashier);
+            Item item = _mapper.Map<Item>(itemDTO);
+            item.ItemId = id;
+            await _unitOfWork.ItemRepo.Update(item);
         }
-
         /// <summary>
-        /// Delete cashier using id
+        /// Delete item using id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete]
         [Route("{id}")]
-        public async Task Delete([FromRoute] int id)
-        {
-            await _unitOfWork.CashierRepo.Delete(id);
-        }
+        public async Task Delete([FromRoute] int id) {
+            await _unitOfWork.ItemRepo.Delete(id);
+        }    
     }
 }

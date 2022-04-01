@@ -1,4 +1,4 @@
-﻿namespace OnboardingEcomindo.DTO
+﻿namespace OnboardingEcomindo.BLL.DTO
 {
     public class ItemsDTO
     {

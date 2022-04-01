@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using OnboardingEcomindo.DTO;
-using OnboardingEcomindo.Models;
+using OnboardingEcomindo.BLL.DTO;
+using OnboardingEcomindo.DAL.Models;
 using OnboardingEcomindo.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;

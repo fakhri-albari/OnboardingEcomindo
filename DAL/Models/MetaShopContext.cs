@@ -1,7 +1,6 @@
-﻿using OnboardingEcomindo.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace OnboardingEcomindo.Models
+namespace OnboardingEcomindo.DAL.Models
 {
     public class MetaShopContext : DbContext
     {

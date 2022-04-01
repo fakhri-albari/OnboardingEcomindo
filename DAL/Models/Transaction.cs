@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace OnboardingEcomindo.Models
+namespace OnboardingEcomindo.DAL.Models
 {
     public class Transaction
     {

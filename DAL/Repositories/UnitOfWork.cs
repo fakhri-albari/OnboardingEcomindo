@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using OnboardingEcomindo.Models;
+using OnboardingEcomindo.DAL.Models;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

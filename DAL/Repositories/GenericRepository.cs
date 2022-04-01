@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnboardingEcomindo.Models;
+using OnboardingEcomindo.DAL.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

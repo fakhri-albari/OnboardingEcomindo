@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OnboardingEcomindo.Models
+namespace OnboardingEcomindo.DAL.Models
 {
     public class DetailTransaction
     {

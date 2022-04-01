@@ -1,7 +1,7 @@
 ﻿using System;
-using OnboardingEcomindo.Models;
+using OnboardingEcomindo.DAL.Models;
 
-namespace OnboardingEcomindo.DTO
+namespace OnboardingEcomindo.BLL.DTO
 {
     public class CashiersDTO
     {

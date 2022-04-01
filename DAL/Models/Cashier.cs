@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace OnboardingEcomindo.Models
+namespace OnboardingEcomindo.DAL.Models
 {
     public enum Gender
     {
