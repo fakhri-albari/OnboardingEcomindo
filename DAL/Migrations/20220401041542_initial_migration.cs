@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace OnboardingEcomindo.Migrations
+namespace OnboardingEcomindo.DAL.Migrations
 {
     public partial class initial_migration : Migration
     {

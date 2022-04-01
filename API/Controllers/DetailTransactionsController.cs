@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using OnboardingEcomindo.BLL.DTO;
 using OnboardingEcomindo.DAL.Models;
-using OnboardingEcomindo.Repositories;
+using OnboardingEcomindo.DAL.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OnboardingEcomindo.Controllers
+namespace OnboardingEcomindo.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

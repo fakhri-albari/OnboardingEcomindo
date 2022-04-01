@@ -3,7 +3,7 @@ using OnboardingEcomindo.DAL.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OnboardingEcomindo.Repositories
+namespace OnboardingEcomindo.DAL.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {

@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using OnboardingEcomindo.DAL.Models;
 using OnboardingEcomindo.BLL.DTO;
-using OnboardingEcomindo.Repositories;
+using OnboardingEcomindo.DAL.Repositories;
 using System.Collections.Generic;
 
-namespace OnboardingEcomindo.Controllers
+namespace OnboardingEcomindo.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

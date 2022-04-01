@@ -7,9 +7,9 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using OnboardingEcomindo.DAL.Models;
-using OnboardingEcomindo.Repositories;
+using OnboardingEcomindo.DAL.Repositories;
 
-namespace OnboardingEcomindo
+namespace OnboardingEcomindo.API
 {
     public class Startup
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OnboardingEcomindo.Repositories
+namespace OnboardingEcomindo.DAL.Repositories
 {
     public interface IGenericRepository<T> where T : class
     {

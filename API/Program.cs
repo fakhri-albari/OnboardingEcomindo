@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OnboardingEcomindo
+namespace OnboardingEcomindo.API
 {
 #pragma warning disable CS1591
     public class Program

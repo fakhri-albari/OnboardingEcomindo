@@ -5,7 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OnboardingEcomindo.Repositories
+namespace OnboardingEcomindo.DAL.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {

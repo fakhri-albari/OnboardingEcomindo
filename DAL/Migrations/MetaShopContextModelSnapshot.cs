@@ -3,10 +3,9 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnboardingEcomindo.DAL.Models;
 
-namespace OnboardingEcomindo.Migrations
+namespace OnboardingEcomindo.DAL.Migrations
 {
     [DbContext(typeof(MetaShopContext))]
     partial class MetaShopContextModelSnapshot : ModelSnapshot
