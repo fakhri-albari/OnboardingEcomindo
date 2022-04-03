@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using OnboardingEcomindo.DAL.Models;
 using OnboardingEcomindo.DAL.Repositories;
+using OnboardingEcomindo.Scheduler;
+using OnboardingEcomindo.Scheduler.Jobs;
+using Quartz.Spi;
 
 namespace OnboardingEcomindo.API
 {
@@ -29,6 +32,12 @@ namespace OnboardingEcomindo.API
             services.AddControllers();
 
             services.AddScoped<UnitOfWork>();
+
+            services.AddHostedService<SchedulerService>();
+
+            services.AddSingleton<IJobFactory, QuartzJobFactory>();
+
+            services.AddTransient<LogTimeJob>();
 
             services.AddSwaggerGen(c =>
             {
