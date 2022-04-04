@@ -5,6 +5,7 @@ using OnboardingEcomindo.DAL.Models;
 using OnboardingEcomindo.BLL.DTO;
 using OnboardingEcomindo.DAL.Repositories;
 using System.Collections.Generic;
+using OnboardingEcomindo.BLL;
 
 namespace OnboardingEcomindo.API.Controllers
 {
@@ -12,13 +13,11 @@ namespace OnboardingEcomindo.API.Controllers
     [ApiController]
     public class CashiersController : ControllerBase
     {
-        private UnitOfWork _unitOfWork;
+        private readonly CashierService _cashierService;
         private readonly IMapper _mapper;
 
         public CashiersController(UnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
-
             MapperConfiguration config = new MapperConfiguration(m =>
             {
                 m.CreateMap<CashiersDTO, Cashier>();
@@ -26,6 +25,7 @@ namespace OnboardingEcomindo.API.Controllers
             });
 
             _mapper = config.CreateMapper();
+            _cashierService ??= new CashierService(unitOfWork);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace OnboardingEcomindo.API.Controllers
         [HttpGet]
         public async Task<IEnumerable<Cashier>> GetAll()
         {
-            return await _unitOfWork.CashierRepo.GetAll();
+            return await _cashierService.GetAll();
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace OnboardingEcomindo.API.Controllers
         [Route("{id}")]
         public async Task<Cashier> GetById([FromRoute] int id)
         {
-            return await _unitOfWork.CashierRepo.GetById(id);
+            return await _cashierService.GetById(id);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace OnboardingEcomindo.API.Controllers
         public async Task<Cashier> Post([FromBody] CashiersDTO cashierDTO)
         {
             Cashier cashier = _mapper.Map<Cashier>(cashierDTO);
-            return await _unitOfWork.CashierRepo.Add(cashier);
+            return await _cashierService.Add(cashier);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace OnboardingEcomindo.API.Controllers
         {
             Cashier cashier = _mapper.Map<Cashier>(cashiersDTO);
             cashier.CashierId = id;
-            await _unitOfWork.CashierRepo.Update(cashier);
+            await _cashierService.Update(cashier);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace OnboardingEcomindo.API.Controllers
         [Route("{id}")]
         public async Task Delete([FromRoute] int id)
         {
-            await _unitOfWork.CashierRepo.Delete(id);
+            await _cashierService.Delete(id);
         }
     }
 }

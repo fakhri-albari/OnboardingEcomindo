@@ -6,6 +6,7 @@ using OnboardingEcomindo.BLL.DTO;
 using OnboardingEcomindo.DAL.Repositories;
 using System.Collections.Generic;
 using OnboardingEcomindo.BLL.Cache;
+using OnboardingEcomindo.BLL;
 
 namespace OnboardingEcomindo.API.Controllers
 {
@@ -13,14 +14,11 @@ namespace OnboardingEcomindo.API.Controllers
     [ApiController]
     public class ItemsController : ControllerBase
     {
-        private UnitOfWork _unitOfWork;
-        private readonly RedisService _redis;
+        private readonly ItemService _itemService;
         private readonly IMapper _mapper;
 
         public ItemsController(UnitOfWork unitOfWork, RedisService redis)
         {
-            _unitOfWork = unitOfWork;
-            _redis = redis;
             MapperConfiguration config = new MapperConfiguration(m =>
             {
                 m.CreateMap<ItemsDTO, Item>();
@@ -28,6 +26,7 @@ namespace OnboardingEcomindo.API.Controllers
             });
 
             _mapper = config.CreateMapper();
+            _itemService = new ItemService(unitOfWork, redis);
         }
 
         /// <summary>
@@ -36,7 +35,7 @@ namespace OnboardingEcomindo.API.Controllers
         /// <returns></returns>
         [HttpGet]
         public async Task<IEnumerable<Item>> GetAll() {
-            return await _unitOfWork.ItemRepo.GetAll();
+            return await _itemService.GetAll();
         }
 
         /// <summary>
@@ -47,14 +46,7 @@ namespace OnboardingEcomindo.API.Controllers
         [Route("{id}")]
         public async Task<Item> GetById([FromRoute] int id)
         {
-            Item item = await _redis.GetAsync<Item>($"item_itemId:{id}");
-
-            if(item == null)
-            {
-                item = await _unitOfWork.ItemRepo.GetById(id);
-                await _redis.SaveAsync($"item_itemId:{id}", item);
-            }
-            return item;
+            return await _itemService.GetById(id);
         }
 
         /// <summary>
@@ -66,7 +58,7 @@ namespace OnboardingEcomindo.API.Controllers
         public async Task<Item> Post([FromBody] ItemsDTO itemDTO)
         {
             Item item = _mapper.Map<Item>(itemDTO);
-            return await _unitOfWork.ItemRepo.Add(item);
+            return await _itemService.Add(item);
         }
 
         /// <summary>
@@ -81,7 +73,7 @@ namespace OnboardingEcomindo.API.Controllers
         {
             Item item = _mapper.Map<Item>(itemDTO);
             item.ItemId = id;
-            await _unitOfWork.ItemRepo.Update(item);
+            await _itemService.Update(item);
         }
         /// <summary>
         /// Delete item using id
@@ -91,7 +83,7 @@ namespace OnboardingEcomindo.API.Controllers
         [HttpDelete]
         [Route("{id}")]
         public async Task Delete([FromRoute] int id) {
-            await _unitOfWork.ItemRepo.Delete(id);
+            await _itemService.Delete(id);
         }    
     }
 }

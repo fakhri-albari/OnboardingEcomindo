@@ -41,6 +41,8 @@ namespace OnboardingEcomindo.API
 
             services.AddTransient<LogTimeJob>();
 
+            services.AddApplicationInsightsTelemetry();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo

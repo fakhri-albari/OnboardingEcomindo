@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using OnboardingEcomindo.BLL;
 using OnboardingEcomindo.BLL.DTO;
 using OnboardingEcomindo.DAL.Models;
 using OnboardingEcomindo.DAL.Repositories;
@@ -12,13 +13,11 @@ namespace OnboardingEcomindo.API.Controllers
     [ApiController]
     public class DetailTransactionsController
     {
-        private UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly DetailTransactionService _detailTransactionService;
 
         public DetailTransactionsController(UnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
-
             MapperConfiguration config = new MapperConfiguration(m =>
             {
                 m.CreateMap<DetailTransactionsDTO, DetailTransaction>();
@@ -26,6 +25,7 @@ namespace OnboardingEcomindo.API.Controllers
             });
 
             _mapper = config.CreateMapper();
+            _detailTransactionService = new DetailTransactionService(unitOfWork);
         }
 
 
@@ -36,7 +36,7 @@ namespace OnboardingEcomindo.API.Controllers
         [HttpGet]
         public async Task<IEnumerable<DetailTransaction>> GetAll()
         {
-            return await _unitOfWork.DetailTransactionRepo.GetAll();
+            return await _detailTransactionService.GetAll();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace OnboardingEcomindo.API.Controllers
         [Route("{id}")]
         public async Task<DetailTransaction> GetById([FromRoute] int id)
         {
-            return await _unitOfWork.DetailTransactionRepo.GetById(id);
+            return await _detailTransactionService.GetById(id);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace OnboardingEcomindo.API.Controllers
         public async Task<DetailTransaction> Post([FromBody] DetailTransactionsDTO detailTransactionDTO)
         {
             DetailTransaction detailTransaction = _mapper.Map<DetailTransaction>(detailTransactionDTO);
-            return await _unitOfWork.DetailTransactionRepo.Add(detailTransaction);
+            return await _detailTransactionService.Add(detailTransaction);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace OnboardingEcomindo.API.Controllers
         {
             DetailTransaction detailTransaction = _mapper.Map<DetailTransaction>(detailTransactionDTO);
             detailTransaction.DetailTransactionId = id;
-            await _unitOfWork.DetailTransactionRepo.Update(detailTransaction);
+            await _detailTransactionService.Update(detailTransaction);
         }
         /// <summary>
         /// Delete DetailTransaction using id
@@ -85,7 +85,7 @@ namespace OnboardingEcomindo.API.Controllers
         [Route("{id}")]
         public async Task Delete([FromRoute] int id)
         {
-            await _unitOfWork.DetailTransactionRepo.Delete(id);
+            await _detailTransactionService.Delete(id);
         }
     }
 }
