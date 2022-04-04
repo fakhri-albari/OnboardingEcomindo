@@ -5,6 +5,7 @@ using OnboardingEcomindo.DAL.Models;
 using OnboardingEcomindo.BLL.DTO;
 using OnboardingEcomindo.DAL.Repositories;
 using System.Collections.Generic;
+using OnboardingEcomindo.BLL.Cache;
 
 namespace OnboardingEcomindo.API.Controllers
 {
@@ -13,12 +14,13 @@ namespace OnboardingEcomindo.API.Controllers
     public class ItemsController : ControllerBase
     {
         private UnitOfWork _unitOfWork;
+        private readonly RedisService _redis;
         private readonly IMapper _mapper;
 
-        public ItemsController(UnitOfWork unitOfWork)
+        public ItemsController(UnitOfWork unitOfWork, RedisService redis)
         {
             _unitOfWork = unitOfWork;
-
+            _redis = redis;
             MapperConfiguration config = new MapperConfiguration(m =>
             {
                 m.CreateMap<ItemsDTO, Item>();
@@ -45,7 +47,14 @@ namespace OnboardingEcomindo.API.Controllers
         [Route("{id}")]
         public async Task<Item> GetById([FromRoute] int id)
         {
-            return await _unitOfWork.ItemRepo.GetById(id);
+            Item item = await _redis.GetAsync<Item>($"item_itemId:{id}");
+
+            if(item == null)
+            {
+                item = await _unitOfWork.ItemRepo.GetById(id);
+                await _redis.SaveAsync($"item_itemId:{id}", item);
+            }
+            return item;
         }
 
         /// <summary>
