@@ -12,6 +12,7 @@ using OnboardingEcomindo.Scheduler;
 using OnboardingEcomindo.Scheduler.Jobs;
 using Quartz.Spi;
 using OnboardingEcomindo.BLL.Cache;
+using OnboardingEcomindo.BLL.Messaging;
 
 namespace OnboardingEcomindo.API
 {
@@ -34,6 +35,7 @@ namespace OnboardingEcomindo.API
 
             services.AddScoped<UnitOfWork>();
             services.AddScoped<RedisService>();
+            services.AddScoped<MessageFactory>();
 
             services.AddHostedService<SchedulerService>();
 

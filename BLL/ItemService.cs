@@ -1,4 +1,6 @@
-﻿using OnboardingEcomindo.BLL.Cache;
+﻿using Microsoft.Extensions.Configuration;
+using OnboardingEcomindo.BLL.Cache;
+using OnboardingEcomindo.BLL.Messaging;
 using OnboardingEcomindo.DAL.Models;
 using OnboardingEcomindo.DAL.Repositories;
 using System.Collections.Generic;
@@ -10,11 +12,15 @@ namespace OnboardingEcomindo.BLL
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly RedisService _redis;
+        private readonly MessageFactory _messageFactory;
+        private readonly IConfiguration _config;
 
-        public ItemService(UnitOfWork unitOfWork, RedisService redis)
+        public ItemService(UnitOfWork unitOfWork, IConfiguration config, RedisService redis, MessageFactory messageFactory)
         {
             _unitOfWork = unitOfWork;
             _redis = redis;
+            _messageFactory = messageFactory;
+            _config = config;
         }
 
         public async Task<IEnumerable<Item>> GetAll()
@@ -36,6 +42,7 @@ namespace OnboardingEcomindo.BLL
 
         public async Task<Item> Add(Item item)
         {
+            SendToEventHub(item);
             return await _unitOfWork.ItemRepo.Add(item);
         }
 
@@ -47,6 +54,18 @@ namespace OnboardingEcomindo.BLL
         public async Task Delete(int id)
         {
             await _unitOfWork.ItemRepo.Delete(id);
+        }
+
+        private async Task SendToEventHub(Item data) {
+            string topic = _config.GetValue<string>("EventHub:Topic");
+
+            MessageSender message = _messageFactory.Create(_config, topic);
+
+            await message.CreateEventBatchAsync();
+
+            message.AddMessage(data);
+
+            await message.SendMessage();
         }
     }
 }

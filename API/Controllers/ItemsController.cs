@@ -7,6 +7,8 @@ using OnboardingEcomindo.DAL.Repositories;
 using System.Collections.Generic;
 using OnboardingEcomindo.BLL.Cache;
 using OnboardingEcomindo.BLL;
+using Microsoft.Extensions.Configuration;
+using OnboardingEcomindo.BLL.Messaging;
 
 namespace OnboardingEcomindo.API.Controllers
 {
@@ -17,7 +19,7 @@ namespace OnboardingEcomindo.API.Controllers
         private readonly ItemService _itemService;
         private readonly IMapper _mapper;
 
-        public ItemsController(UnitOfWork unitOfWork, RedisService redis)
+        public ItemsController(UnitOfWork unitOfWork, IConfiguration configuration, RedisService redis, MessageFactory messageFactory)
         {
             MapperConfiguration config = new MapperConfiguration(m =>
             {
@@ -26,7 +28,7 @@ namespace OnboardingEcomindo.API.Controllers
             });
 
             _mapper = config.CreateMapper();
-            _itemService = new ItemService(unitOfWork, redis);
+            _itemService = new ItemService(unitOfWork, configuration, redis, messageFactory);
         }
 
         /// <summary>

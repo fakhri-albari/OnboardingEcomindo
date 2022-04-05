@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{29B4D62F-13B2-4791-A083-CCF79796D739}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{29B4D62F-13B2-4791-A083-CCF79796D739}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{1D70181A-1393-4309-B671-9616C40E7903}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{1D70181A-1393-4309-B671-9616C40E7903}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{8C9656D0-2507-46E8-B9BA-E704715D0B54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{8C9656D0-2507-46E8-B9BA-E704715D0B54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduler", "Scheduler\Scheduler.csproj", "{C8CB73E8-E4AD-41AB-9697-0D23559EB0F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scheduler", "Scheduler\Scheduler.csproj", "{C8CB73E8-E4AD-41AB-9697-0D23559EB0F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL.test", "BLL.test\BLL.test.csproj", "{B8130595-E411-4480-8B00-1E53F537479A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{C8CB73E8-E4AD-41AB-9697-0D23559EB0F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8CB73E8-E4AD-41AB-9697-0D23559EB0F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8CB73E8-E4AD-41AB-9697-0D23559EB0F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8130595-E411-4480-8B00-1E53F537479A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8130595-E411-4480-8B00-1E53F537479A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8130595-E411-4480-8B00-1E53F537479A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8130595-E411-4480-8B00-1E53F537479A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
