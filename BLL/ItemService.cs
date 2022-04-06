@@ -15,7 +15,7 @@ namespace OnboardingEcomindo.BLL
         private readonly MessageFactory _messageFactory;
         private readonly IConfiguration _config;
 
-        public ItemService(UnitOfWork unitOfWork, IConfiguration config, RedisService redis, MessageFactory messageFactory)
+        public ItemService(UnitOfWork unitOfWork, IConfiguration? config, RedisService? redis, MessageFactory? messageFactory)
         {
             _unitOfWork = unitOfWork;
             _redis = redis;
@@ -30,19 +30,30 @@ namespace OnboardingEcomindo.BLL
 
         public async Task<Item> GetById(int id)
         {
-            Item item = await _redis.GetAsync<Item>($"item_itemId:{id}");
+            Item item = null;
+            if (_redis != null)
+            {
+                item = await _redis.GetAsync<Item>($"item_itemId:{id}");
+            }
 
             if (item == null)
             {
                 item = await _unitOfWork.ItemRepo.GetById(id);
-                await _redis.SaveAsync($"item_itemId:{id}", item);
+
+                if(_redis != null)
+                {
+                    await _redis.SaveAsync($"item_itemId:{id}", item);
+                }
             }
             return item;
         }
 
         public async Task<Item> Add(Item item)
         {
-            SendToEventHub(item);
+            if (_config != null && _messageFactory != null)
+            {
+                await SendToEventHub(item);
+            }
             return await _unitOfWork.ItemRepo.Add(item);
         }
 
