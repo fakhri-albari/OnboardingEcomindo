@@ -10,12 +10,12 @@ namespace OnboardingEcomindo.BLL
 {
     public class ItemService
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly RedisService _redis;
         private readonly MessageFactory _messageFactory;
         private readonly IConfiguration _config;
 
-        public ItemService(UnitOfWork unitOfWork, IConfiguration? config, RedisService? redis, MessageFactory? messageFactory)
+        public ItemService(IUnitOfWork unitOfWork, IConfiguration? config, RedisService? redis, MessageFactory? messageFactory)
         {
             _unitOfWork = unitOfWork;
             _redis = redis;

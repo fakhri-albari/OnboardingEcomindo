@@ -18,7 +18,7 @@ namespace OnboardingEcomindo.BLLTest
     {
         private IEnumerable<Item> items;
         private Mock<RedisService> redis;
-        private Mock<UnitOfWork> uow;
+        private Mock<IUnitOfWork> uow;
         private IConfiguration config;
 
         public ItemServiceTest()
@@ -28,14 +28,14 @@ namespace OnboardingEcomindo.BLLTest
 
         }
 
-        private Mock<UnitOfWork> MockUnitOfWork()
+        private Mock<IUnitOfWork> MockUnitOfWork()
         {
             var itemsQueryable = items.AsQueryable().BuildMock().Object;
-            var mockUnitOfWork = new Mock<UnitOfWork>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             mockUnitOfWork
                 .Setup(u => u.ItemRepo.GetAll())
-                .Returns(itemsQueryable);
+                .ReturnsAsync(itemsQueryable);
 
             return mockUnitOfWork;
         }
